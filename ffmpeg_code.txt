@@ -1,0 +1,13 @@
+# extract audio from video
+ffmpeg -i input.mp4 -f wav -ab 192000 -vn output.wav
+
+# take 30 seconds segment at an offset of 30s
+ffmpeg -i input.wav -ss 30 -t 30 output.wav
+
+# Stereo to mono
+## downmix both channels
+ffmpeg -i stereo.wav -ac 1 mono.wav
+
+## stereo to 2 mono files (right and left channels)
+ffmpeg -i stereo.wav -filter_complex "[0:a]channelsplit=channel_layout=stereo[left][right]" -map "[left]" left.wav -map "[right]" right.wav
+
